@@ -1,0 +1,8 @@
+#!/bin/bash
+
+process="$1"
+
+while true; do
+  sleep 5
+  "${process}" > /dev/null 2>&1
+done

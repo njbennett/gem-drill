@@ -1,0 +1,13 @@
+sudo su
+
+apt-get install automake build-essential libtool libmysqlclient-dev
+
+cd /root
+wget https://github.com/akopytov/sysbench/archive/0.5.zip
+unzip 0.5.zip
+
+cd /root/sysbench-0.5
+./autogen.sh
+./configure
+make
+cd /root/sysbench-0.5/sysbench

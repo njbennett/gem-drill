@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eux
+
+command="$1"
+
+bosh ssh p-mysql-first cf-mysql-broker-partition-bb35e96d6d3184a2d672 1 "${command}"
+
+#p-mysql-fifth
+#p-mysql-first
+#p-mysql-fourth
+#p-mysql-second
+#p-mysql-third

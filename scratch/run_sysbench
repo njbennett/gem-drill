@@ -1,0 +1,73 @@
+#!/bin/bash
+
+sudo su
+
+apt-get install automake build-essential libtool libmysqlclient-dev
+
+cd /root
+wget https://github.com/akopytov/sysbench/archive/0.5.zip
+unzip 0.5.zip
+
+cd /root/sysbench-0.5
+./autogen.sh
+./configure
+make
+cd /root/sysbench-0.5/sysbench
+
+
+mysql -uroot -pf3042ae2f941bf58b39ost=10.87.42.195 -e "CREATE DATABASE sysbench"
+
+
+/root/sysbench-0.5/sysbench/sysbench \
+--test=/root/sysbench-0.5/sysbench/tests/db/oltp.lua \
+--max-time=600 \
+--max-requests=0 \
+--db-driver=mysql \
+--db-ps-mode=disable \
+--oltp-skip-trx \
+--oltp-dist-type=special \
+--oltp-test-mode=complex \
+--oltp-read-only=off \
+--oltp-reconnect=on \
+--oltp-reconnect-mode=query \
+--oltp-connect-delay=0 \
+--oltp-table-size=100000 \
+--mysql-host=10.87.42.195 \
+--mysql-port=3306 \
+--mysql-db=sysbench \
+--mysql-user=root \
+--mysql-password=f3042ae2f941bf58b39b \
+--mysql-table-engine=innodb \
+--mysql-engine-trx=yes \
+--mysql-ignore-duplicates \
+--mysql-ignore-errors=all \
+--num-threads=10 \
+prepare
+
+while true; do
+/root/sysbench-0.5/sysbench/sysbench \
+--test=/root/sysbench-0.5/sysbench/tests/db/oltp.lua \
+--max-time=600 \
+--max-requests=0 \
+--db-driver=mysql \
+--db-ps-mode=disable \
+--oltp-skip-trx \
+--oltp-dist-type=special \
+--oltp-test-mode=complex \
+--oltp-read-only=off \
+--oltp-reconnect=on \
+--oltp-reconnect-mode=query \
+--oltp-connect-delay=0 \
+--oltp-table-size=100000 \
+--mysql-host=10.87.42.195 \
+--mysql-port=3306 \
+--mysql-db=sysbench \
+--mysql-user=root \
+--mysql-password=f3042ae2f941bf58b39b \
+--mysql-table-engine=innodb \
+--mysql-engine-trx=yes \
+--mysql-ignore-duplicates \
+--mysql-ignore-errors=all \
+--num-threads=10 \
+run > /dev/null 2>&1
+done
