@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function slap_with_concurrency() {
+  local threads=$1
+  mysqlslap --user=root --password=password --host=10.244.7.2 --auto-generate-sql --concurrency="${threads}" --iterations=10 --csv
+}
+
+function increment() {
+  local counter=$1
+  counter=$((${counter} + 1))
+  echo "${counter}"
+}

@@ -2,12 +2,9 @@
 
 set -eux
 
-function slap_with_concurrency() {
-  local threads=$1
-  mysqlslap --user=sysadmin --password=password --host=10.244.7.2 --auto-generate-sql --concurrency="${threads}" --iterations=10 --csv
-}
+source ./grapher_functions
 
-timestamp=$(date +s%)
+timestamp=$(date +"%s")
 output_file="graph-${timestamp}"
 
 counter=0
@@ -15,24 +12,12 @@ echo $counter
 
 while [ "${counter}" -lt 10 ]
 do
- slap_with_concurrency "${counter}" >> output_file
- let counter=$counter+1
+ slap_with_concurrency "${counter}"# >> "${output_file}"
+ let counter=$((${counter} + 1))
 done
 
 while [ "${counter}" -lt 100 ]
 do
- slap_with_concurrency "${counter}" >> output_file
- let counter=counter+10
-done
-
-while [ "${counter}" -lt 1000 ]
-do
-  slap_with_concurrency "${counter}" >> output_file
- let counter=counter+100
-done
-
-while [ "${counter}" -lt 10000 ]
-do
- slap_with_concurrency "${counter}" >> output_file
- let counter=counter+1000
+ slap_with_concurrency "${counter}"# >> "${output_file}"
+ let counter=$((${counter} + 1))
 done

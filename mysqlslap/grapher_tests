@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eu
+
+source ./grapher_functions
+
+counter=0
+echo "Expect counter to equal 0"
+echo $counter
+counter=$(increment $counter)
+echo "Expect counter to equal 1"
+echo $counter
